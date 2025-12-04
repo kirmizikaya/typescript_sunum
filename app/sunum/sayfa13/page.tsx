@@ -1,33 +1,8 @@
 "use client"
-// Base Entity
-interface Entity {
-    id: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
 
-// Spesifik Entity tipleri (Entity'den türeyen)
-interface User extends Entity {
-    username: string;
-    email: string;
-    role: 'admin' | 'user' | 'guest';
-}
+import { Entity } from "./types/entities";
+import { User, Product, Order } from "./types/entities";
 
-interface Product extends Entity {
-    name: string;
-    price: number;
-    stock: number;
-    category: string;
-}
-
-interface Order extends Entity {
-    userId: string;
-    productIds: string[];
-    totalAmount: number;
-    status: 'pending' | 'completed' | 'cancelled';
-}
-
-// 3️⃣ Generic component - Hepsi için çalışır!
 const EntityCard = <T extends Entity>({
     entity,
     renderDetails,
@@ -58,7 +33,7 @@ const EntityCard = <T extends Entity>({
     );
 };
 
-// 4️⃣ Kullanım Örnekleri
+
 const App = () => {
     const user: User = {
         id: 'u1',
