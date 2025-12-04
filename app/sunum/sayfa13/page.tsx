@@ -3,15 +3,18 @@
 import { Entity } from "./types/entities";
 import { User, Product, Order } from "./types/entities";
 
+interface EntityCardProps<T extends Entity> {
+    entity: T;
+    renderDetails: (entity: T) => React.ReactNode;
+    onDelete: (id: string) => void;
+}
+
+
 const EntityCard = <T extends Entity>({
     entity,
     renderDetails,
     onDelete
-}: {
-    entity: T;
-    renderDetails: (entity: T) => React.ReactNode;
-    onDelete: (id: string) => void;
-}) => {
+}: EntityCardProps<T>) => {
     return (
         <div className="card">
             {/* Ortak Entity özellikleri */}
@@ -67,7 +70,7 @@ const App = () => {
     return (
         <div className="container mx-auto max-w-5xl">
             <div className="flex flex-col sm:flex-row border-1">
-                
+
                 <div className="flex justify-center items-center mr-20 border-1">
                     {/* User Card */}
                     <EntityCard
