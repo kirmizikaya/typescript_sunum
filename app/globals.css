@@ -24,3 +24,131 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.block{
+  display: block;
+
+}
+.card {
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #fff;
+  cursor: pointer; 
+  height: auto;
+  line-height: normal;
+  color: #393939;
+
+  } 
+
+
+  .imageContainer {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    min-height: 230px;
+    max-height: 250px;
+  }
+
+ 
+
+  .image {
+    display: block;
+    width: 100%;
+    height: auto;  
+    object-fit: scale-down;  
+    max-height: 250px;
+
+ 
+  }
+
+  .topLeftRibbons {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+ 
+  }
+
+  .ribbon {
+    padding: 4px 10px;
+    border-radius: 0px 36px 36px 0px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;  
+    display: inline-block;  
+    line-height: 1.2;
+    text-align: center;
+
+    &.new {
+      background-color: #D6F5E3; 
+      color: #393939;  
+      box-shadow: 1px 0px 2px 0px rgba(0, 0, 0, 0.20);
+    }
+
+    &.priceDrop {
+      background-color: #FCD3D3;
+      color: #393939;
+      box-shadow: 1px 0px 2px 0px rgba(0, 0, 0, 0.20);
+    }
+
+    &.status {
+      position: absolute;
+      bottom: 5px;
+      left: 5px;
+      color: #4B3D73;
+      padding: 3px 4px;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 2px;
+      background: #E3D3F8;
+    }
+  }
+
+
+  
+
+ 
+
+ 
+
+
+  .skeleton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: '#e5e7eb';
+    z-index: 1;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  .shimmer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right, #e5e7eb 0%, #f3f4f6 50%, #e5e7eb 100%);
+    background-size: '1000px 100%';
+    animation: shimmer 5.5s infinite linear;
+    z-index: 2;
+  }
+
+
+
+
