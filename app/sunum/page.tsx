@@ -47,9 +47,28 @@ let products: Product[] = [
   {
     id: 2,
     name: "aliveli",
-    price: 123
+    price: 123.
   }
 ];
+
+interface User {
+  id: number;
+  username: string;
+  status: boolean;
+}
+
+let users: User[] = [
+  {
+    id: 1,
+    status: true,
+    username: "kirmizikaya"
+  },
+  {
+    id: 1,
+    status: true,
+    username: "kirmizikaya"
+  }
+]
 
 
 
@@ -57,14 +76,24 @@ const index = () => {
 
 
   return (
-        <Select
-          items={
-            products
-          }
-          valueKey="id"     // Otomatik tamamlanır: "id" | "name" | "price"
-          labelKey="name"
-          onSelect={(id) => console.log(id)}
-        />
+    <>
+      <Select
+        items={
+          products
+        }
+        valueKey="id"     // Otomatik tamamlanır: "id" | "name" | "price"
+        labelKey="name"
+        onSelect={(id) => console.log(id)}
+      />
+      <Select
+        items={
+          users
+        }
+        valueKey="id"
+        labelKey="username"
+        onSelect={(id) => console.log(id)}
+      />
+    </>
   );
 };
 

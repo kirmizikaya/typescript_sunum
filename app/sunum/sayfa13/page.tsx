@@ -1,7 +1,6 @@
 "use client"
 
-import { Entity } from "./types/entities";
-import { User, Product, Order } from "./types/entities";
+import { Entity, User, Product, Order } from "./types/entities";
 
 interface EntityCardProps<T extends Entity> {
     entity: T;
