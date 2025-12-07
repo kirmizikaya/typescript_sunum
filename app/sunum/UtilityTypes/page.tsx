@@ -188,3 +188,14 @@ type KullaniciParametreleri = Parameters<typeof kullaniciOlustur>;
 // [ad: string, email: string, yas: number]
 
 
+export default function UtilityTypesPage() {
+
+    return (
+        <div>
+            <h1>TypeScript Utility Types Örnekleri</h1>
+            <p>Bu sayfada TypeScript'in çeşitli utility type'larının kullanımı gösterilmektedir.</p>
+        </div>
+    );
+}   
+
+
