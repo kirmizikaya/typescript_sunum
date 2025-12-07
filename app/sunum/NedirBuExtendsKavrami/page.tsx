@@ -25,6 +25,7 @@ veya
 */}
 
 
+
 // ÇÖZÜM 1
 
 const List = <T extends {}>({ items }: { items: T[] }) => {
@@ -39,3 +40,4 @@ const Sayfa12 = <T,>({ items }: { items: T[] }) => {
 };
 
 export default Sayfa12;
+
