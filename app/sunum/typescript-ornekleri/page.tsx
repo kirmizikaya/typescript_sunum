@@ -28,6 +28,7 @@ interface PageProps {
 
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const params = await searchParams;
+  // burada Logic var. TODO: düzeltilecek => Backend ile entegre edilecek. Data direkt basılacak.
   const listingType = params.listingType === "rent" ? "Kiralık" : "Satılık";
 
   return {
@@ -45,7 +46,7 @@ export default async function PropertyListPage({ searchParams }: PageProps) {
 
   // Search params'ı PropertyFilter tipine çevir
   const filter: PropertyFilter = {
-    listingType: params.listingType as PropertyFilter["listingType"],
+    listingType: params.listingType as PropertyFilter["listingType"], // type assertion kullanımı => “TypeScript, şu değerin tipini senin düşündüğün şekilde kabul et. Ben sorumluluğu alıyorum.”
     propertyType: params.propertyType as PropertyFilter["propertyType"],
     city: params.city,
     minPrice: params.minPrice ? parseInt(params.minPrice) : undefined,

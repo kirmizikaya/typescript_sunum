@@ -4,9 +4,10 @@ import { Property, PropertyCard } from "@/types/property";
 // 1. VOID FONKSİYONLAR - Değer döndürmez
 // =============================================================================
 
-export function trackPageView(pageName: string): void {
+export const trackPageView = (pageName: string): void =>{
   console.log(`[Analytics] Page viewed: ${pageName}`);
 }
+
 
 // =============================================================================
 // 2. REST PARAMETRELERİ - CSS class birleştirme
@@ -69,3 +70,6 @@ export function parseSearchParams(params: URLSearchParams): [string | null, stri
 export function formatPrice(price: number, currency: string): string {
   return `${price.toLocaleString("tr-TR")} ${currency}`;
 }
+
+
+
