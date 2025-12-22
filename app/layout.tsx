@@ -25,6 +25,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Preload icon font to reduce critical chain */}
+        <link
+          rel="preload"
+          href="https://fonts.gstatic.com/s/materialicons/v142/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         {/* Emlakjet Icon Font */}
         <link rel="stylesheet" href="/fonts/emlakjet-icons.css" />
       </head>

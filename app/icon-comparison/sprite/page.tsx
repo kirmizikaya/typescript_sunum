@@ -29,6 +29,45 @@ export default function SpritePage() {
       </header>
 
       <main className="max-w-4xl mx-auto">
+        {/* Kullanım */}
+        <section className="mb-8 p-6 bg-emerald-50 rounded-xl border border-emerald-200">
+          <h2 className="text-lg font-bold text-emerald-800 mb-4">📖 Nasıl Kullanılır?</h2>
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-sm font-medium text-emerald-700 mb-2">1. Component&apos;ı import et:</h3>
+              <pre className="bg-slate-800 rounded-lg p-3 text-sm overflow-x-auto">
+                <code className="text-emerald-400">{`import { Icon } from "@/components/Icon";`}</code>
+              </pre>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium text-emerald-700 mb-2">2. Kullan:</h3>
+              <pre className="bg-slate-800 rounded-lg p-3 text-sm overflow-x-auto">
+                <code className="text-emerald-400">{`// Basit kullanım
+<Icon name="star" />
+
+// Boyut ile
+<Icon name="heart" size={32} />
+
+// Renk ile
+<Icon name="home" color="#e74c3c" />
+
+// Hepsi birlikte
+<Icon name="search" size={48} color="#3498db" className="hover:scale-110" />`}</code>
+              </pre>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium text-emerald-700 mb-2">Mevcut iconlar:</h3>
+              <div className="flex gap-2 flex-wrap">
+                {icons.map((icon) => (
+                  <code key={icon} className="px-2 py-1 bg-white rounded text-xs text-slate-600 border border-emerald-200">
+                    {icon}
+                  </code>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* 6 farklı icon */}
         <section className="mb-8">
           <h2 className="text-lg font-medium text-slate-700 mb-4">6 Icon</h2>

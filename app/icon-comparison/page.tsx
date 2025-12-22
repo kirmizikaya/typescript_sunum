@@ -1,37 +1,6 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
-import { Icon } from "@/components/Icon";
-
-// Icon Font Component - Gerçek font dosyası kullanır
-function FontIcon({
-  name,
-  size = 24,
-  color = "currentColor",
-  className = "",
-}: {
-  name: string;
-  size?: number;
-  color?: string;
-  className?: string;
-}) {
-  return (
-    <i
-      className={`emlakjet-icon-${name} ${className}`}
-      style={{ fontSize: size, color }}
-      aria-hidden="true"
-    />
-  );
-}
-
-const icons = ["star", "heart", "home", "search", "location", "phone"];
 
 export default function IconComparisonPage() {
-  const [activeTab, setActiveTab] = useState<"sprite" | "font">("sprite");
-  const [iconSize, setIconSize] = useState(32);
-  const [iconColor, setIconColor] = useState("#1e3a5f");
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
       {/* Header */}
@@ -48,127 +17,22 @@ export default function IconComparisonPage() {
       </header>
 
       <main className="max-w-6xl mx-auto px-6 py-8">
-        {/* Lighthouse Test Links */}
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8">
-          <h3 className="text-amber-800 font-medium mb-2">🔬 Lighthouse Test Sayfaları</h3>
-          <div className="flex gap-3">
-            <Link
-              href="/icon-comparison/sprite"
-              className="px-4 py-2 bg-emerald-500 text-white rounded-lg text-sm font-medium hover:bg-emerald-600 transition-colors"
-            >
-              SVG Sprite Test →
-            </Link>
-            <Link
-              href="/icon-comparison/font"
-              className="px-4 py-2 bg-amber-500 text-white rounded-lg text-sm font-medium hover:bg-amber-600 transition-colors"
-            >
-              Icon Font Test →
-            </Link>
-          </div>
-        </div>
-
-        {/* Tab Navigation */}
-        <div className="flex gap-2 mb-8">
-          <button
-            onClick={() => setActiveTab("sprite")}
-            className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
-              activeTab === "sprite"
-                ? "bg-amber-500 text-white shadow-lg shadow-amber-500/25"
-                : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
-            }`}
+        {/* Demo Sayfaları */}
+        <div className="grid md:grid-cols-2 gap-4 mb-8">
+          <Link
+            href="/icon-comparison/sprite"
+            className="block p-6 bg-gradient-to-br from-emerald-50 to-white rounded-xl border border-emerald-200 hover:border-emerald-400 transition-colors"
           >
-            🎨 SVG Sprite
-          </button>
-          <button
-            onClick={() => setActiveTab("font")}
-            className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
-              activeTab === "font"
-                ? "bg-amber-500 text-white shadow-lg shadow-amber-500/25"
-                : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
-            }`}
+            <h3 className="text-lg font-bold text-emerald-700 mb-2">🎨 SVG Sprite Demo</h3>
+            <p className="text-slate-500 text-sm">Kullanım örnekleri ve Lighthouse testi için</p>
+          </Link>
+          <Link
+            href="/icon-comparison/font"
+            className="block p-6 bg-gradient-to-br from-amber-50 to-white rounded-xl border border-amber-200 hover:border-amber-400 transition-colors"
           >
-            🔤 Icon Font
-          </button>
-        </div>
-
-        {/* Controls */}
-        <div className="bg-white rounded-xl p-6 mb-8 border border-slate-200 shadow-sm">
-          <h3 className="text-slate-800 font-medium mb-4">Ayarlar</h3>
-          <div className="flex flex-wrap gap-6">
-            <div>
-              <label className="text-slate-500 text-sm block mb-2">
-                Boyut: {iconSize}px
-              </label>
-              <input
-                type="range"
-                min="16"
-                max="64"
-                value={iconSize}
-                onChange={(e) => setIconSize(Number(e.target.value))}
-                className="w-40 accent-amber-500"
-              />
-            </div>
-            <div>
-              <label className="text-slate-500 text-sm block mb-2">Renk</label>
-              <input
-                type="color"
-                value={iconColor}
-                onChange={(e) => setIconColor(e.target.value)}
-                className="w-12 h-8 rounded cursor-pointer border border-slate-200"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Icon Display */}
-        <div className="bg-white rounded-xl p-8 mb-8 border border-slate-200 shadow-sm">
-          <h3 className="text-slate-800 font-medium mb-6">
-            {activeTab === "sprite" ? "SVG Sprite Icons" : "Icon Font Icons"}
-          </h3>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6">
-            {icons.map((icon) => (
-              <div
-                key={icon}
-                className="flex flex-col items-center gap-3 p-4 bg-slate-50 rounded-lg border border-slate-100 hover:border-amber-400 transition-colors"
-              >
-                {activeTab === "sprite" ? (
-                  <Icon name={icon as "star" | "heart" | "home" | "search" | "location" | "phone"} size={iconSize} color={iconColor} />
-                ) : (
-                  <FontIcon name={icon} size={iconSize} color={iconColor} />
-                )}
-                <span className="text-slate-500 text-xs font-mono">
-                  {activeTab === "sprite"
-                    ? `#icon-${icon}`
-                    : `emlakjet-icon-${icon}`}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* Kullanım Kodu */}
-          <div className="mt-8">
-            <h4 className="text-slate-600 text-sm font-medium mb-3">
-              Kullanım:
-            </h4>
-            <pre className="bg-slate-800 rounded-lg p-4 text-sm overflow-x-auto">
-              {activeTab === "sprite" ? (
-                <code className="text-emerald-400">
-                  {`import { Icon } from "@/components/Icon";
-
-<Icon name="star" />
-<Icon name="heart" size={32} color="#e74c3c" />`}
-                </code>
-              ) : (
-                <code className="text-emerald-400">
-                  {`<i class="emlakjet-icon-star"></i>
-
-/* veya React'te */
-<span className="emlakjet-icon-star" />`}
-                </code>
-              )}
-            </pre>
-          </div>
+            <h3 className="text-lg font-bold text-amber-700 mb-2">🔤 Icon Font Demo</h3>
+            <p className="text-slate-500 text-sm">Kullanım örnekleri ve Lighthouse testi için</p>
+          </Link>
         </div>
 
         {/* Comparison Table */}

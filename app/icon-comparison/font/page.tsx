@@ -14,7 +14,12 @@ function FontIcon({
   return (
     <i
       className={`emlakjet-icon-${name}`}
-      style={{ fontSize: size, color }}
+      style={{
+        fontSize: size,
+        color,
+        width: size,
+        height: size,
+      }}
       aria-hidden="true"
     />
   );
@@ -39,6 +44,45 @@ export default function FontPage() {
       </header>
 
       <main className="max-w-4xl mx-auto">
+        {/* Kullanım */}
+        <section className="mb-8 p-6 bg-amber-50 rounded-xl border border-amber-200">
+          <h2 className="text-lg font-bold text-amber-800 mb-4">📖 Nasıl Kullanılır?</h2>
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-sm font-medium text-amber-700 mb-2">1. CSS&apos;i dahil et (layout.tsx&apos;te zaten var):</h3>
+              <pre className="bg-slate-800 rounded-lg p-3 text-sm overflow-x-auto">
+                <code className="text-amber-400">{`<link rel="stylesheet" href="/fonts/emlakjet-icons.css" />`}</code>
+              </pre>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium text-amber-700 mb-2">2. HTML&apos;de kullan:</h3>
+              <pre className="bg-slate-800 rounded-lg p-3 text-sm overflow-x-auto">
+                <code className="text-amber-400">{`<!-- Basit kullanım -->
+<i class="emlakjet-icon-star"></i>
+
+<!-- Boyut için font-size kullan -->
+<i class="emlakjet-icon-heart" style="font-size: 32px;"></i>
+
+<!-- Renk için color kullan -->
+<i class="emlakjet-icon-home" style="color: #e74c3c;"></i>
+
+<!-- Tailwind ile -->
+<i class="emlakjet-icon-search text-2xl text-blue-500"></i>`}</code>
+              </pre>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium text-amber-700 mb-2">Mevcut iconlar:</h3>
+              <div className="flex gap-2 flex-wrap">
+                {icons.map((icon) => (
+                  <code key={icon} className="px-2 py-1 bg-white rounded text-xs text-slate-600 border border-amber-200">
+                    emlakjet-icon-{icon}
+                  </code>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* 6 farklı icon */}
         <section className="mb-8">
           <h2 className="text-lg font-medium text-slate-700 mb-4">6 Icon</h2>

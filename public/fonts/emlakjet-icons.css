@@ -9,8 +9,12 @@
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  font-display: block;
+  font-display: swap;
   src: url(https://fonts.gstatic.com/s/materialicons/v142/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+  /* Font metric overrides to reduce layout shift */
+  ascent-override: 100%;
+  descent-override: 0%;
+  line-gap-override: 0%;
 }
 
 /* Emlakjet Icon base class */
@@ -30,6 +34,12 @@
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   font-feature-settings: 'liga';
+  /* Prevent layout shift with fixed dimensions */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  text-align: center;
+  vertical-align: middle;
 }
 
 /* Emlakjet Icon Mapping */
