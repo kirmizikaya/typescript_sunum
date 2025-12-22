@@ -1,0 +1,51 @@
+/*
+ * Emlakjet Icon Font
+ * Material Icons üzerine kurulu custom alias sistemi
+ * Gerçek projede IcoMoon/Fontello ile özel font oluşturulabilir
+ */
+
+/* Material Icons font yükleme */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(https://fonts.gstatic.com/s/materialicons/v142/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+}
+
+/* Emlakjet Icon base class */
+[class^="emlakjet-icon-"], [class*=" emlakjet-icon-"] {
+  font-family: 'Material Icons' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'liga';
+}
+
+/* Emlakjet Icon Mapping */
+.emlakjet-icon-star::before { content: "star"; }
+.emlakjet-icon-heart::before { content: "favorite"; }
+.emlakjet-icon-home::before { content: "home"; }
+.emlakjet-icon-search::before { content: "search"; }
+.emlakjet-icon-location::before { content: "location_on"; }
+.emlakjet-icon-phone::before { content: "phone"; }
+.emlakjet-icon-email::before { content: "email"; }
+.emlakjet-icon-person::before { content: "person"; }
+.emlakjet-icon-settings::before { content: "settings"; }
+.emlakjet-icon-menu::before { content: "menu"; }
+.emlakjet-icon-close::before { content: "close"; }
+.emlakjet-icon-check::before { content: "check"; }
+.emlakjet-icon-arrow-right::before { content: "arrow_forward"; }
+.emlakjet-icon-arrow-left::before { content: "arrow_back"; }
+.emlakjet-icon-chevron-down::before { content: "expand_more"; }
+.emlakjet-icon-chevron-up::before { content: "expand_less"; }
