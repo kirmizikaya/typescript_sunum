@@ -92,19 +92,19 @@ export default function CacheStatusDemoPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="px-4 py-3 flex items-center justify-between">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-40 h-[60px]">
+        <div className="px-4 h-full flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/CF" className="text-gray-600 hover:text-gray-900">
+            <Link href="/CF" className="text-gray-600 hover:text-gray-900 whitespace-nowrap">
               ← Dashboard
             </Link>
             <div className="h-6 w-px bg-gray-300" />
-            <h1 className="text-lg font-semibold text-gray-900">
+            <h1 className="text-lg font-semibold text-gray-900 whitespace-nowrap">
               Demo 5: Tüm CF-Cache-Status Değerleri
             </h1>
           </div>
           <div className="flex items-center gap-4">
-            <span className={`px-3 py-1 rounded-full text-sm font-medium ${currentStatusConfig.bgColor} ${currentStatusConfig.textColor}`}>
+            <span className={`px-3 py-1 rounded-full text-sm font-medium w-[220px] text-center ${currentStatusConfig.bgColor} ${currentStatusConfig.textColor}`}>
               CF-Cache-Status: {currentHeaders['cf-cache-status'] || selectedStatus}
             </span>
           </div>

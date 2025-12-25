@@ -137,54 +137,40 @@ export default function EarlyHintsDemoPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="px-4 py-3 flex items-center justify-between">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-40 h-[60px]">
+        <div className="px-4 h-full flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/CF" className="text-gray-600 hover:text-gray-900">
+            <Link href="/CF" className="text-gray-600 hover:text-gray-900 whitespace-nowrap">
               ← Dashboard
             </Link>
             <div className="h-6 w-px bg-gray-300" />
-            <h1 className="text-lg font-semibold text-gray-900">
+            <h1 className="text-lg font-semibold text-gray-900 whitespace-nowrap">
               Demo 4: Early Hints (103)
             </h1>
           </div>
           <div className="flex items-center gap-4">
-            {showingEarlyHints && (
-              <span className="px-3 py-1 rounded-full text-sm font-medium bg-cyan-100 text-cyan-700 animate-pulse flex items-center gap-2">
-                <span className="w-2 h-2 bg-cyan-500 rounded-full animate-ping" />
-                103 Early Hints
-              </span>
-            )}
-            <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+            <span className={`px-3 py-1 rounded-full text-sm font-medium w-[150px] text-center flex items-center justify-center gap-2 ${showingEarlyHints ? 'bg-cyan-100 text-cyan-700 border border-cyan-200' : 'bg-gray-100 text-gray-400 border border-gray-200'}`}>
+              <span className={`w-2 h-2 rounded-full flex-shrink-0 ${showingEarlyHints ? 'bg-cyan-500 animate-ping' : 'bg-gray-300'}`} />
+              <span>103 Hints</span>
+            </span>
+            <span className={`px-3 py-1 rounded-full text-sm font-medium w-[220px] text-center ${
               currentHeaders['cf-cache-status'] === 'HIT' 
-                ? 'bg-green-100 text-green-700' 
+                ? 'bg-green-100 text-green-700 border border-green-200' 
                 : currentHeaders['cf-cache-status'] === 'MISS'
-                ? 'bg-yellow-100 text-yellow-700'
-                : 'bg-gray-100 text-gray-700'
+                ? 'bg-yellow-100 text-yellow-700 border border-yellow-200'
+                : 'bg-gray-100 text-gray-700 border border-gray-200'
             }`}>
               CF-Cache-Status: {currentHeaders['cf-cache-status'] || '—'}
             </span>
             <button
               onClick={fetchProperty}
               disabled={loading}
-              className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 w-[130px] justify-center"
             >
-              {loading ? (
-                <>
-                  <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
-                    <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor" className="opacity-75" />
-                  </svg>
-                  Yükleniyor...
-                </>
-              ) : (
-                <>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                  Yenile
-                </>
-              )}
+              <svg className={`w-4 h-4 flex-shrink-0 ${loading ? 'animate-spin' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span>{loading ? 'Yükleniyor' : 'Yenile'}</span>
             </button>
           </div>
         </div>

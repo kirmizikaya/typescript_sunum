@@ -137,65 +137,48 @@ export default function SWRDemoPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="px-4 py-3 flex items-center justify-between">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-40 h-[60px]">
+        <div className="px-4 h-full flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/CF" className="text-gray-600 hover:text-gray-900">
+            <Link href="/CF" className="text-gray-600 hover:text-gray-900 whitespace-nowrap">
               ← Dashboard
             </Link>
             <div className="h-6 w-px bg-gray-300" />
-            <h1 className="text-lg font-semibold text-gray-900">
+            <h1 className="text-lg font-semibold text-gray-900 whitespace-nowrap">
               Demo 3: Stale-While-Revalidate
             </h1>
           </div>
           <div className="flex items-center gap-4">
-            <span className={`px-3 py-1 rounded-full text-sm font-medium border ${getCacheStatusColor(currentHeaders['cf-cache-status'] || '')}`}>
+            <span className={`px-3 py-1 rounded-full text-sm font-medium border w-[220px] text-center ${getCacheStatusColor(currentHeaders['cf-cache-status'] || '')}`}>
               CF-Cache-Status: {currentHeaders['cf-cache-status'] || '—'}
             </span>
-            {currentHeaders['age'] && (
-              <span className="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700 border border-blue-200">
-                Age: {currentHeaders['age']}s
-              </span>
-            )}
-            {revalidating && (
-              <span className="px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-700 border border-purple-200 animate-pulse flex items-center gap-2">
-                <svg className="w-3 h-3 animate-spin" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
-                  <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor" className="opacity-75" />
-                </svg>
-                Background Revalidation
-              </span>
-            )}
+            <span className={`px-3 py-1 rounded-full text-sm font-medium border border-blue-200 w-[100px] text-center ${currentHeaders['age'] ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-400'}`}>
+              Age: {currentHeaders['age'] || '—'}s
+            </span>
+            <span className={`px-3 py-1 rounded-full text-sm font-medium border w-[200px] text-center flex items-center justify-center gap-2 ${revalidating ? 'bg-purple-100 text-purple-700 border-purple-200' : 'bg-gray-100 text-gray-400 border-gray-200'}`}>
+              <svg className={`w-3 h-3 flex-shrink-0 ${revalidating ? 'animate-spin' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span>{revalidating ? 'Revalidating...' : 'Background'}</span>
+            </span>
             <button
               onClick={clearCache}
-              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 flex items-center gap-2"
+              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 flex items-center gap-2 w-[150px] justify-center"
             >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
-              Cache Temizle
+              <span>Cache Temizle</span>
             </button>
             <button
               onClick={fetchProperty}
               disabled={loading}
-              className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 w-[130px] justify-center"
             >
-              {loading ? (
-                <>
-                  <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
-                    <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor" className="opacity-75" />
-                  </svg>
-                  Yükleniyor...
-                </>
-              ) : (
-                <>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                  Yenile
-                </>
-              )}
+              <svg className={`w-4 h-4 flex-shrink-0 ${loading ? 'animate-spin' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span>{loading ? 'Yükleniyor' : 'Yenile'}</span>
             </button>
           </div>
         </div>
