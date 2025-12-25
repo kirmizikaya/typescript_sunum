@@ -4,25 +4,39 @@ import Link from 'next/link';
 
 const DEMOS = [
   {
-    id: 1,
-    title: 'Cache Yok (Origin Direct)',
-    path: '/CF/demos/no-cache',
-    description: 'Her istek doğrudan origin sunucuya gider. En yavaş senaryo.',
-    color: 'purple',
+    id: '1a',
+    title: 'Backend Yavaş (~1000ms)',
+    path: '/CF/demos/no-cache-slow',
+    description: 'Yavaş backend simülasyonu. PageSpeed skorun düşük olacak.',
+    color: 'red',
     cacheStatus: 'DYNAMIC',
-    avgTTFB: '800-1200ms',
+    avgTTFB: '~1000ms',
     icon: (
       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     )
   },
   {
-    id: 2,
+    id: '1b',
+    title: 'Backend Hızlı (~50ms)',
+    path: '/CF/demos/no-cache-fast',
+    description: 'Hızlı backend simülasyonu. PageSpeed skorun yüksek olacak.',
+    color: 'green',
+    cacheStatus: 'DYNAMIC',
+    avgTTFB: '~50ms',
+    icon: (
+      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+    )
+  },
+  {
+    id: '2',
     title: 'Basic Edge Cache',
     path: '/CF/demos/edge-cache',
     description: 'İlk istek MISS, sonrakiler HIT. Klasik CDN caching.',
-    color: 'green',
+    color: 'emerald',
     cacheStatus: 'HIT / MISS',
     avgTTFB: '10-25ms (HIT)',
     icon: (
@@ -32,7 +46,7 @@ const DEMOS = [
     )
   },
   {
-    id: 3,
+    id: '3',
     title: 'Stale-While-Revalidate',
     path: '/CF/demos/stale-while-revalidate',
     description: 'Eski veri hemen sunulur, arka planda güncellenir. En iyi UX.',
@@ -46,7 +60,7 @@ const DEMOS = [
     )
   },
   {
-    id: 4,
+    id: '4',
     title: 'Early Hints (103)',
     path: '/CF/demos/early-hints',
     description: 'Tarayıcıya erken preload/preconnect ipuçları. LCP iyileşir.',
@@ -60,11 +74,11 @@ const DEMOS = [
     )
   },
   {
-    id: 5,
+    id: '5',
     title: 'Tüm Cache Status\'ları',
     path: '/CF/demos/cache-status',
     description: 'HIT, MISS, STALE, EXPIRED, BYPASS, DYNAMIC... hepsini test et.',
-    color: 'orange',
+    color: 'purple',
     cacheStatus: 'Tümü',
     avgTTFB: 'Değişken',
     icon: (
@@ -76,11 +90,12 @@ const DEMOS = [
 ];
 
 const colorClasses: Record<string, { bg: string; border: string; text: string; light: string }> = {
-  purple: { bg: 'bg-purple-500', border: 'border-purple-200', text: 'text-purple-700', light: 'bg-purple-50' },
+  red: { bg: 'bg-red-500', border: 'border-red-200', text: 'text-red-700', light: 'bg-red-50' },
   green: { bg: 'bg-green-500', border: 'border-green-200', text: 'text-green-700', light: 'bg-green-50' },
+  emerald: { bg: 'bg-emerald-500', border: 'border-emerald-200', text: 'text-emerald-700', light: 'bg-emerald-50' },
   blue: { bg: 'bg-blue-500', border: 'border-blue-200', text: 'text-blue-700', light: 'bg-blue-50' },
   cyan: { bg: 'bg-cyan-500', border: 'border-cyan-200', text: 'text-cyan-700', light: 'bg-cyan-50' },
-  orange: { bg: 'bg-orange-500', border: 'border-orange-200', text: 'text-orange-700', light: 'bg-orange-50' },
+  purple: { bg: 'bg-purple-500', border: 'border-purple-200', text: 'text-purple-700', light: 'bg-purple-50' },
 };
 
 export default function CFDashboard() {
@@ -101,17 +116,17 @@ export default function CFDashboard() {
             </div>
           </div>
           
-          {/* Info */}
+          {/* PageSpeed Test Info */}
           <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mt-6">
             <div className="flex items-start gap-3">
               <svg className="w-5 h-5 text-orange-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <div>
-                <h3 className="font-medium text-orange-900">Network Tab&apos;ı Açın!</h3>
+                <h3 className="font-medium text-orange-900">PageSpeed ile Test Et!</h3>
                 <p className="text-sm text-orange-700 mt-1">
-                  Her demo sayfası gerçek API istekleri yapar. DevTools → Network sekmesinde <strong>CF-Cache-Status</strong> header&apos;ını
-                  ve TTFB (Time to First Byte) değerlerini gözlemleyebilirsiniz.
+                  Her demo sayfası <strong>gerçek latency simülasyonu</strong> yapar. 
+                  PageSpeed Insights ile test edip TTFB farklarını gör!
                 </p>
               </div>
             </div>
@@ -168,40 +183,40 @@ export default function CFDashboard() {
 
         {/* Comparison Chart */}
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-12">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">TTFB Karşılaştırması</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">TTFB Karşılaştırması (Gerçek Latency)</h2>
           
           <div className="space-y-4">
-            {/* No Cache */}
+            {/* Slow Backend */}
             <div className="flex items-center gap-4">
-              <div className="w-40 text-sm font-medium text-gray-700">Cache Yok</div>
+              <div className="w-48 text-sm font-medium text-gray-700">Backend Yavaş (Demo 1a)</div>
               <div className="flex-1">
                 <div className="h-8 bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-purple-500 rounded-full flex items-center justify-end pr-3" style={{ width: '100%' }}>
+                  <div className="h-full bg-red-500 rounded-full flex items-center justify-end pr-3" style={{ width: '100%' }}>
                     <span className="text-xs font-bold text-white">~1000ms</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Basic Cache MISS */}
+            {/* Fast Backend */}
             <div className="flex items-center gap-4">
-              <div className="w-40 text-sm font-medium text-gray-700">Edge Cache (MISS)</div>
+              <div className="w-48 text-sm font-medium text-gray-700">Backend Hızlı (Demo 1b)</div>
               <div className="flex-1">
                 <div className="h-8 bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-yellow-500 rounded-full flex items-center justify-end pr-3" style={{ width: '100%' }}>
-                    <span className="text-xs font-bold text-white">~1000ms</span>
+                  <div className="h-full bg-green-500 rounded-full flex items-center justify-end pr-3" style={{ width: '5%', minWidth: '80px' }}>
+                    <span className="text-xs font-bold text-white">~50ms</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Basic Cache HIT */}
+            {/* Edge Cache HIT */}
             <div className="flex items-center gap-4">
-              <div className="w-40 text-sm font-medium text-gray-700">Edge Cache (HIT)</div>
+              <div className="w-48 text-sm font-medium text-gray-700">Edge Cache HIT</div>
               <div className="flex-1">
                 <div className="h-8 bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-green-500 rounded-full flex items-center justify-end pr-3" style={{ width: '2%', minWidth: '80px' }}>
-                    <span className="text-xs font-bold text-white">~20ms</span>
+                  <div className="h-full bg-emerald-500 rounded-full flex items-center justify-end pr-3" style={{ width: '5%', minWidth: '80px' }}>
+                    <span className="text-xs font-bold text-white">~50ms</span>
                   </div>
                 </div>
               </div>
@@ -209,11 +224,11 @@ export default function CFDashboard() {
 
             {/* SWR */}
             <div className="flex items-center gap-4">
-              <div className="w-40 text-sm font-medium text-gray-700">SWR (STALE)</div>
+              <div className="w-48 text-sm font-medium text-gray-700">SWR (STALE)</div>
               <div className="flex-1">
                 <div className="h-8 bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-blue-500 rounded-full flex items-center justify-end pr-3" style={{ width: '2%', minWidth: '80px' }}>
-                    <span className="text-xs font-bold text-white">~15ms</span>
+                  <div className="h-full bg-blue-500 rounded-full flex items-center justify-end pr-3" style={{ width: '5%', minWidth: '80px' }}>
+                    <span className="text-xs font-bold text-white">~50ms</span>
                   </div>
                 </div>
               </div>
@@ -221,95 +236,10 @@ export default function CFDashboard() {
           </div>
 
           <div className="mt-6 pt-6 border-t border-gray-200">
-            <div className="flex items-center gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-purple-500 rounded" />
-                <span className="text-gray-600">Origin (yavaş)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-yellow-500 rounded" />
-                <span className="text-gray-600">Cache MISS</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-green-500 rounded" />
-                <span className="text-gray-600">Cache HIT (hızlı)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-blue-500 rounded" />
-                <span className="text-gray-600">SWR (en hızlı UX)</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* CF-Cache-Status Reference */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">CF-Cache-Status Referansı</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full" />
-                <span className="font-bold text-green-700">HIT</span>
-              </div>
-              <p className="text-xs text-gray-600">İçerik edge cache&apos;de bulundu</p>
-            </div>
-
-            <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-3 h-3 bg-yellow-500 rounded-full" />
-                <span className="font-bold text-yellow-700">MISS</span>
-              </div>
-              <p className="text-xs text-gray-600">Cache&apos;de yok, origin&apos;den alındı</p>
-            </div>
-
-            <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-3 h-3 bg-blue-500 rounded-full" />
-                <span className="font-bold text-blue-700">STALE</span>
-              </div>
-              <p className="text-xs text-gray-600">Eski veri sunuldu, arka planda güncelleniyor</p>
-            </div>
-
-            <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-3 h-3 bg-orange-500 rounded-full" />
-                <span className="font-bold text-orange-700">EXPIRED</span>
-              </div>
-              <p className="text-xs text-gray-600">Cache süresi doldu, yeniden alındı</p>
-            </div>
-
-            <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-3 h-3 bg-gray-500 rounded-full" />
-                <span className="font-bold text-gray-700">BYPASS</span>
-              </div>
-              <p className="text-xs text-gray-600">Cache atlandı (cookie/auth)</p>
-            </div>
-
-            <div className="p-4 bg-teal-50 rounded-lg border border-teal-200">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-3 h-3 bg-teal-500 rounded-full" />
-                <span className="font-bold text-teal-700">REVALIDATED</span>
-              </div>
-              <p className="text-xs text-gray-600">Arka plan güncelleme tamamlandı</p>
-            </div>
-
-            <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-3 h-3 bg-purple-500 rounded-full" />
-                <span className="font-bold text-purple-700">DYNAMIC</span>
-              </div>
-              <p className="text-xs text-gray-600">İçerik dinamik, cache edilemez</p>
-            </div>
-
-            <div className="p-4 bg-pink-50 rounded-lg border border-pink-200">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-3 h-3 bg-pink-500 rounded-full" />
-                <span className="font-bold text-pink-700">UPDATING</span>
-              </div>
-              <p className="text-xs text-gray-600">Cache güncelleniyor</p>
-            </div>
+            <p className="text-sm text-gray-600">
+              💡 <strong>PageSpeed ile test et:</strong> Yavaş backend (Demo 1a) ve Hızlı backend (Demo 1b) arasındaki 
+              skor farkını göreceksin!
+            </p>
           </div>
         </div>
       </main>
