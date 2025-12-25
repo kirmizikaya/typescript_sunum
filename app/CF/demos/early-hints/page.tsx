@@ -3,15 +3,14 @@ import { Metadata } from 'next';
 import { PropertyDetailSSR } from '../../components/PropertyDetailSSR';
 import { DemoControlsClient } from '../../components/DemoControlsClient';
 import { Property } from '../../types';
+import { BASE_URL } from '../../lib/config';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
 // API'den property verisi çek
 async function getProperty(): Promise<Property> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  
-  const response = await fetch(`${baseUrl}/CF/api/property/cf-demo-1?strategy=basic`, {
+  const response = await fetch(`${BASE_URL}/CF/api/property/cf-demo-1?strategy=basic`, {
     cache: 'no-store',
     next: { revalidate: 0 }
   });

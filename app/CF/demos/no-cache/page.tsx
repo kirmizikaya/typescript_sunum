@@ -3,17 +3,15 @@ import { Metadata } from 'next';
 import { PropertyDetailSSR } from '../../components/PropertyDetailSSR';
 import { DemoControlsClient } from '../../components/DemoControlsClient';
 import { Property } from '../../types';
+import { BASE_URL } from '../../lib/config';
 
 // Force dynamic rendering - her istekte yeniden render
 export const dynamic = 'force-dynamic';
 
 // API'den property verisi çek
 async function getProperty(): Promise<Property> {
-  // Server-side fetch - absolute URL gerekli
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  
-  const response = await fetch(`${baseUrl}/CF/api/property/cf-demo-1?strategy=none`, {
-    cache: 'no-store', // Her zaman fresh data
+  const response = await fetch(`${BASE_URL}/CF/api/property/cf-demo-1?strategy=none`, {
+    cache: 'no-store',
     next: { revalidate: 0 }
   });
   
@@ -48,7 +46,6 @@ export async function generateMetadata(): Promise<Metadata> {
  * Network tab'ında CF header'larını görebilirsiniz
  */
 export default async function NoCacheDemoPage() {
-  // API'den veri çek - gerçek network isteği
   const property = await getProperty();
 
   return (
