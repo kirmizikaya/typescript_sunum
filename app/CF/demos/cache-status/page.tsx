@@ -2,30 +2,14 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { PropertyDetailSSR } from '../../components/PropertyDetailSSR';
 import { CacheStatusControlsClient } from './CacheStatusControlsClient';
-import { Property } from '../../types';
-import { BASE_URL } from '../../lib/config';
+import { getProperty } from '../../lib/property-service';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-// API'den property verisi çek
-async function getProperty(): Promise<Property> {
-  const response = await fetch(`${BASE_URL}/CF/api/property/cf-demo-1?strategy=basic`, {
-    cache: 'no-store',
-    next: { revalidate: 0 }
-  });
-  
-  if (!response.ok) {
-    throw new Error('Failed to fetch property');
-  }
-  
-  const data = await response.json();
-  return data.property;
-}
-
 // SEO Metadata
 export async function generateMetadata(): Promise<Metadata> {
-  const property = await getProperty();
+  const property = await getProperty('cf-demo-1', 50);
   
   return {
     title: `${property.title} | CF-Cache-Status Referans`,
@@ -45,7 +29,8 @@ export async function generateMetadata(): Promise<Metadata> {
  * Her birinin ne anlama geldiğini ve latency etkisini görün.
  */
 export default async function CacheStatusDemoPage() {
-  const property = await getProperty();
+  // API simülasyonu - 50ms latency
+  const property = await getProperty('cf-demo-1', 50);
 
   return (
     <div className="min-h-screen bg-gray-50">

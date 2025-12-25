@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { mockProperty, similarProperties, getPropertyById } from '../../../data/mock-properties';
+import { getPropertyData } from '../../../lib/property-service';
 
 // In-memory cache simulation
 const cache = new Map<string, { data: unknown; timestamp: number; maxAge: number }>();
@@ -45,13 +45,8 @@ export async function GET(
   const cacheKey = `property-${id}-${strategy}`;
   const now = Date.now();
   
-  // Get property data
-  const property = id === 'cf-demo-1' ? mockProperty : getPropertyById(id) || mockProperty;
-  const responseData = {
-    property,
-    similarProperties: similarProperties.slice(0, 4),
-    fetchedAt: new Date().toISOString()
-  };
+  // Get property data from service (0 latency - API kendi latency'sini simüle ediyor)
+  const responseData = await getPropertyData(id, 0);
 
   // Common headers
   const baseHeaders: Record<string, string> = {
