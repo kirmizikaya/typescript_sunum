@@ -7,35 +7,27 @@ import { getProperty } from '../../lib/property-service';
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-// SEO Metadata
+// SEO Metadata - basit tutuyoruz
 export async function generateMetadata(): Promise<Metadata> {
   const property = await getProperty('cf-demo-1', 50);
   
   return {
-    title: `${property.title} | Early Hints (103) Demo`,
-    description: `${property.location.district}, ${property.location.neighborhood} - ${property.specs.roomCount}, ${property.specs.netArea}m² - Demo: HTTP 103 Early Hints`,
-    openGraph: {
-      title: property.title,
-      description: property.description.slice(0, 160),
-      images: [property.images[0].url],
-    },
+    title: `${property.title} | Early Hints Demo`,
+    description: `Demo: HTTP 103 Early Hints. Kritik kaynaklar önceden yüklenir.`,
   };
 }
 
 /**
  * Demo 4: Early Hints (103)
  * 
- * Cloudflare, ana response'tan önce 103 Early Hints gönderir.
- * Browser kritik kaynakları (CSS, font, API) önceden yükler.
- * Network tab'ında 'Link' header'ını görebilirsiniz.
+ * Link header ile kritik kaynaklar preload edilir.
+ * Browser, ana response gelmeden font/CSS yüklemeye başlar.
  */
 export default async function EarlyHintsDemoPage() {
-  // API simülasyonu - 50ms latency
   const property = await getProperty('cf-demo-1', 50);
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -50,18 +42,25 @@ export default async function EarlyHintsDemoPage() {
         </div>
       </header>
 
-      {/* Main Content */}
+      <div className="bg-cyan-50 border-b border-cyan-200 px-4 py-3">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-cyan-700">
+            🚀 Bu sayfa <strong>Link header</strong> ile kritik kaynakları preload ediyor. 
+            Network tab'ında <code className="bg-cyan-100 px-1 rounded">Link</code> header'ını gör!
+          </p>
+        </div>
+      </div>
+
       <main className="max-w-7xl mx-auto">
         <PropertyDetailSSR property={property} />
       </main>
 
-      {/* Demo Controls (Sayfa Altında) */}
       <DemoControlsClient 
         strategy="basic"
         propertyId="cf-demo-1"
         infoBanner={{
           title: '103 Early Hints - Kritik kaynakları önceden yükle',
-          description: 'Network tab\'ında <strong>Link</strong> header\'ını görün. Browser, ana response gelmeden font, CSS ve API isteklerini başlatır. LCP ve FCP metrikleri iyileşir.',
+          description: 'Network tab\'ında response headers\'a bak: <strong>Link</strong> header ile font ve image host preload/preconnect ediliyor.',
           color: 'cyan'
         }}
         showAge={true}

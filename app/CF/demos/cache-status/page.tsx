@@ -7,34 +7,24 @@ import { getProperty } from '../../lib/property-service';
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-// SEO Metadata
+// SEO Metadata - basit tutuyoruz
 export async function generateMetadata(): Promise<Metadata> {
   const property = await getProperty('cf-demo-1', 50);
   
   return {
     title: `${property.title} | CF-Cache-Status Referans`,
-    description: 'HIT, MISS, STALE, EXPIRED, BYPASS, DYNAMIC - Tüm Cloudflare cache status değerlerinin açıklaması ve demo',
-    openGraph: {
-      title: 'CF-Cache-Status Referans - Tüm Değerler',
-      description: 'Cloudflare cache status değerlerinin interaktif demo sayfası',
-      images: [property.images[0].url],
-    },
+    description: 'HIT, MISS, STALE, EXPIRED, BYPASS, DYNAMIC - Tüm CF-Cache-Status değerleri',
   };
 }
 
 /**
  * Demo 5: Tüm CF-Cache-Status Değerleri
- * 
- * HIT, MISS, STALE, EXPIRED, BYPASS, REVALIDATED, UPDATING, DYNAMIC
- * Her birinin ne anlama geldiğini ve latency etkisini görün.
  */
 export default async function CacheStatusDemoPage() {
-  // API simülasyonu - 50ms latency
   const property = await getProperty('cf-demo-1', 50);
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -49,18 +39,16 @@ export default async function CacheStatusDemoPage() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto">
         <PropertyDetailSSR property={property} />
       </main>
 
-      {/* Cache Status Controls - Interactive (Sayfa Altında) */}
       <CacheStatusControlsClient propertyId="cf-demo-1" />
 
-      {/* Cache Status Reference Table - SSR for SEO */}
+      {/* Cache Status Reference Table */}
       <section className="bg-white border-t border-gray-200 mt-8">
         <div className="max-w-7xl mx-auto p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">CF-Cache-Status Referans Tablosu</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">CF-Cache-Status Referans</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <CacheStatusCard 
@@ -72,7 +60,7 @@ export default async function CacheStatusDemoPage() {
             <CacheStatusCard 
               status="MISS" 
               color="yellow"
-              description="İçerik cache'de yok, origin'den alındı" 
+              description="Cache'de yok, origin'den alındı" 
               latency="~800-1200ms"
             />
             <CacheStatusCard 
@@ -84,13 +72,13 @@ export default async function CacheStatusDemoPage() {
             <CacheStatusCard 
               status="EXPIRED" 
               color="orange"
-              description="Cache süresi doldu, yeniden alındı" 
+              description="Cache süresi doldu" 
               latency="~800-1200ms"
             />
             <CacheStatusCard 
               status="BYPASS" 
               color="gray"
-              description="Cache atlandı (cookie/header nedeniyle)" 
+              description="Cache atlandı" 
               latency="~800-1200ms"
             />
             <CacheStatusCard 
@@ -108,7 +96,7 @@ export default async function CacheStatusDemoPage() {
             <CacheStatusCard 
               status="DYNAMIC" 
               color="red"
-              description="İçerik dinamik, cache edilemez" 
+              description="Dinamik içerik, cache yok" 
               latency="~800-1200ms"
             />
           </div>
@@ -118,7 +106,6 @@ export default async function CacheStatusDemoPage() {
   );
 }
 
-// SSR Component for cache status cards
 function CacheStatusCard({ 
   status, 
   color, 

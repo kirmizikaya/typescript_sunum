@@ -7,35 +7,27 @@ import { getProperty } from '../../lib/property-service';
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-// SEO Metadata
+// SEO Metadata - basit tutuyoruz
 export async function generateMetadata(): Promise<Metadata> {
   const property = await getProperty('cf-demo-1', 50);
   
   return {
-    title: `${property.title} | Basic Edge Cache Demo`,
-    description: `${property.location.district}, ${property.location.neighborhood} - ${property.specs.roomCount}, ${property.specs.netArea}m² - Demo: Edge cache, ilk MISS sonra HIT`,
-    openGraph: {
-      title: property.title,
-      description: property.description.slice(0, 160),
-      images: [property.images[0].url],
-    },
+    title: `${property.title} | Edge Cache Demo`,
+    description: `Demo: Basic Edge Cache. İlk istek MISS, sonrakiler HIT.`,
   };
 }
 
 /**
  * Demo 2: Basic Edge Cache
  * 
- * İlk istek: CF-Cache-Status: MISS (~800-1200ms)
- * Sonraki istekler: CF-Cache-Status: HIT (~10-25ms)
- * Cache'i temizlemek için cookie'leri silin
+ * İlk istek: MISS (~800-1200ms)
+ * Sonraki istekler: HIT (~10-25ms)
  */
 export default async function EdgeCacheDemoPage() {
-  // API simülasyonu - 50ms latency
   const property = await getProperty('cf-demo-1', 50);
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -50,18 +42,25 @@ export default async function EdgeCacheDemoPage() {
         </div>
       </header>
 
-      {/* Main Content */}
+      <div className="bg-green-50 border-b border-green-200 px-4 py-3">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-green-700">
+            💾 İlk istek <strong>MISS</strong>, sonrakiler <strong>HIT</strong>. 
+            Sayfayı yenile ve Network tab'ında CF-Cache-Status'u kontrol et!
+          </p>
+        </div>
+      </div>
+
       <main className="max-w-7xl mx-auto">
         <PropertyDetailSSR property={property} />
       </main>
 
-      {/* Demo Controls (Sayfa Altında) */}
       <DemoControlsClient 
         strategy="basic"
         propertyId="cf-demo-1"
         infoBanner={{
           title: 'Basic Edge Cache - İlk istek MISS, sonrakiler HIT',
-          description: 'İlk istek origin\'e gider: <strong>CF-Cache-Status: MISS</strong> (~800-1200ms). Sonraki istekler edge\'den: <strong>CF-Cache-Status: HIT</strong> (~10-25ms). Sayfayı yenileyin ve Network tab\'ında farkı görün!',
+          description: 'Network tab\'ında CF-Cache-Status header\'ını kontrol et. İlk istekte MISS, sonrakilerde HIT görmelisin.',
           color: 'green'
         }}
         showAge={true}

@@ -7,35 +7,28 @@ import { getProperty } from '../../lib/property-service';
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-// SEO Metadata
+// SEO Metadata - basit tutuyoruz
 export async function generateMetadata(): Promise<Metadata> {
   const property = await getProperty('cf-demo-1', 50);
   
   return {
-    title: `${property.title} | Stale-While-Revalidate Demo`,
-    description: `${property.location.district}, ${property.location.neighborhood} - ${property.specs.roomCount}, ${property.specs.netArea}m² - Demo: SWR stratejisi`,
-    openGraph: {
-      title: property.title,
-      description: property.description.slice(0, 160),
-      images: [property.images[0].url],
-    },
+    title: `${property.title} | SWR Demo`,
+    description: `Demo: Stale-While-Revalidate. Eski veri hemen sunulur, arka planda güncellenir.`,
   };
 }
 
 /**
  * Demo 3: Stale-While-Revalidate
  * 
- * 0-10sn: CF-Cache-Status: HIT (fresh)
- * 10-25sn: CF-Cache-Status: STALE (eski veri sunulur, arka planda güncellenir)
- * 25sn+: CF-Cache-Status: EXPIRED (origin'e gider)
+ * 0-10sn: HIT (fresh)
+ * 10-25sn: STALE (eski veri sunulur)
+ * 25sn+: EXPIRED
  */
 export default async function SWRDemoPage() {
-  // API simülasyonu - 50ms latency
   const property = await getProperty('cf-demo-1', 50);
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -50,18 +43,25 @@ export default async function SWRDemoPage() {
         </div>
       </header>
 
-      {/* Main Content */}
+      <div className="bg-blue-50 border-b border-blue-200 px-4 py-3">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-blue-700">
+            🔄 <strong>SWR</strong>: Cache süresi dolsa bile eski veri hemen sunulur. 
+            Arka planda güncelleme yapılır. Kullanıcı beklemez!
+          </p>
+        </div>
+      </div>
+
       <main className="max-w-7xl mx-auto">
         <PropertyDetailSSR property={property} />
       </main>
 
-      {/* Demo Controls (Sayfa Altında) */}
       <DemoControlsClient 
         strategy="swr"
         propertyId="cf-demo-1"
         infoBanner={{
           title: 'SWR - Eski veriyi hemen sun, arka planda güncelle',
-          description: '<strong>0-10sn:</strong> HIT (fresh) | <strong>10-25sn:</strong> STALE (eski veri anında sunulur, arka planda güncellenir) | <strong>25sn+:</strong> EXPIRED. Cache temizleyin, bekleyin ve farkı görün!',
+          description: '<strong>0-10sn:</strong> HIT | <strong>10-25sn:</strong> STALE | <strong>25sn+:</strong> EXPIRED',
           color: 'blue'
         }}
         showAge={true}
