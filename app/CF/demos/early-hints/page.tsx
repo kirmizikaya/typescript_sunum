@@ -4,6 +4,7 @@ import { DemoControlsClient } from '../../components/DemoControlsClient';
 import { getListingDetail } from '../../lib/property-service';
 import { DataLayerScript } from '../../components/Scripts';
 import { createDataLayerData } from '../../lib/dataLayerUtils';
+import { EmlakjetHeader } from '../../components/EmlakjetHeader';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
@@ -60,6 +61,9 @@ export default async function EarlyHintsDemoPage() {
           </p>
         </div>
       </div>
+
+      {/* Emlakjet Header - Full Width */}
+      <EmlakjetHeader />
 
       <main className="max-w-7xl mx-auto">
         <PropertyDetailSSR listing={listing} />
