@@ -2,17 +2,20 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { PropertyDetailSSR } from '../../components/PropertyDetailSSR';
 import { DemoControlsClient } from '../../components/DemoControlsClient';
-import { getProperty } from '../../lib/property-service';
+import { getListingDetail } from '../../lib/property-service';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-// SEO Metadata - basit tutuyoruz
+// Default listing ID - gerçek Emlakjet ilanı
+const LISTING_ID = '18248872';
+
+// SEO Metadata
 export async function generateMetadata(): Promise<Metadata> {
-  const property = await getProperty('cf-demo-1', 50);
+  const listing = await getListingDetail(LISTING_ID, 50);
   
   return {
-    title: `${property.title} | Edge Cache Demo`,
+    title: `${listing.seo.title} | Edge Cache Demo`,
     description: `Demo: Basic Edge Cache. İlk istek MISS, sonrakiler HIT.`,
   };
 }
@@ -22,9 +25,10 @@ export async function generateMetadata(): Promise<Metadata> {
  * 
  * İlk istek: MISS (~800-1200ms)
  * Sonraki istekler: HIT (~10-25ms)
+ * Emlakjet API'den gerçek veri çekiyor
  */
 export default async function EdgeCacheDemoPage() {
-  const property = await getProperty('cf-demo-1', 50);
+  const listing = await getListingDetail(LISTING_ID, 50);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -47,17 +51,18 @@ export default async function EdgeCacheDemoPage() {
           <p className="text-green-700">
             💾 İlk istek <strong>MISS</strong>, sonrakiler <strong>HIT</strong>. 
             Sayfayı yenile ve Network tab'ında CF-Cache-Status'u kontrol et!
+            <span className="ml-2 text-sm">İlan: #{listing.id}</span>
           </p>
         </div>
       </div>
 
       <main className="max-w-7xl mx-auto">
-        <PropertyDetailSSR property={property} />
+        <PropertyDetailSSR listing={listing} />
       </main>
 
       <DemoControlsClient 
         strategy="basic"
-        propertyId="cf-demo-1"
+        propertyId={String(listing.id)}
         infoBanner={{
           title: 'Basic Edge Cache - İlk istek MISS, sonrakiler HIT',
           description: 'Network tab\'ında CF-Cache-Status header\'ını kontrol et. İlk istekte MISS, sonrakilerde HIT görmelisin.',

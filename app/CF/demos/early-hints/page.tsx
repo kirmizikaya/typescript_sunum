@@ -2,17 +2,20 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { PropertyDetailSSR } from '../../components/PropertyDetailSSR';
 import { DemoControlsClient } from '../../components/DemoControlsClient';
-import { getProperty } from '../../lib/property-service';
+import { getListingDetail } from '../../lib/property-service';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-// SEO Metadata - basit tutuyoruz
+// Default listing ID - gerçek Emlakjet ilanı
+const LISTING_ID = '18248872';
+
+// SEO Metadata
 export async function generateMetadata(): Promise<Metadata> {
-  const property = await getProperty('cf-demo-1', 50);
+  const listing = await getListingDetail(LISTING_ID, 50);
   
   return {
-    title: `${property.title} | Early Hints Demo`,
+    title: `${listing.seo.title} | Early Hints Demo`,
     description: `Demo: HTTP 103 Early Hints. Kritik kaynaklar önceden yüklenir.`,
   };
 }
@@ -22,9 +25,10 @@ export async function generateMetadata(): Promise<Metadata> {
  * 
  * Link header ile kritik kaynaklar preload edilir.
  * Browser, ana response gelmeden font/CSS yüklemeye başlar.
+ * Emlakjet API'den gerçek veri çekiyor
  */
 export default async function EarlyHintsDemoPage() {
-  const property = await getProperty('cf-demo-1', 50);
+  const listing = await getListingDetail(LISTING_ID, 50);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -47,20 +51,21 @@ export default async function EarlyHintsDemoPage() {
           <p className="text-cyan-700">
             🚀 Bu sayfa <strong>Link header</strong> ile kritik kaynakları preload ediyor. 
             Network tab'ında <code className="bg-cyan-100 px-1 rounded">Link</code> header'ını gör!
+            <span className="ml-2 text-sm">İlan: #{listing.id}</span>
           </p>
         </div>
       </div>
 
       <main className="max-w-7xl mx-auto">
-        <PropertyDetailSSR property={property} />
+        <PropertyDetailSSR listing={listing} />
       </main>
 
       <DemoControlsClient 
         strategy="basic"
-        propertyId="cf-demo-1"
+        propertyId={String(listing.id)}
         infoBanner={{
           title: '103 Early Hints - Kritik kaynakları önceden yükle',
-          description: 'Network tab\'ında response headers\'a bak: <strong>Link</strong> header ile font ve image host preload/preconnect ediliyor.',
+          description: 'Network tab\'ında response headers\'a bak: <strong>Link</strong> header ile imaj ve API host preload/preconnect ediliyor.',
           color: 'cyan'
         }}
         showAge={true}

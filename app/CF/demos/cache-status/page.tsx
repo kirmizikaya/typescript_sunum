@@ -2,26 +2,30 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { PropertyDetailSSR } from '../../components/PropertyDetailSSR';
 import { CacheStatusControlsClient } from './CacheStatusControlsClient';
-import { getProperty } from '../../lib/property-service';
+import { getListingDetail } from '../../lib/property-service';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-// SEO Metadata - basit tutuyoruz
+// Default listing ID - gerçek Emlakjet ilanı
+const LISTING_ID = '18248872';
+
+// SEO Metadata
 export async function generateMetadata(): Promise<Metadata> {
-  const property = await getProperty('cf-demo-1', 50);
+  const listing = await getListingDetail(LISTING_ID, 50);
   
   return {
-    title: `${property.title} | CF-Cache-Status Referans`,
+    title: `${listing.seo.title} | CF-Cache-Status Referans`,
     description: 'HIT, MISS, STALE, EXPIRED, BYPASS, DYNAMIC - Tüm CF-Cache-Status değerleri',
   };
 }
 
 /**
  * Demo 5: Tüm CF-Cache-Status Değerleri
+ * Emlakjet API'den gerçek veri çekiyor
  */
 export default async function CacheStatusDemoPage() {
-  const property = await getProperty('cf-demo-1', 50);
+  const listing = await getListingDetail(LISTING_ID, 50);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -40,10 +44,10 @@ export default async function CacheStatusDemoPage() {
       </header>
 
       <main className="max-w-7xl mx-auto">
-        <PropertyDetailSSR property={property} />
+        <PropertyDetailSSR listing={listing} />
       </main>
 
-      <CacheStatusControlsClient propertyId="cf-demo-1" />
+      <CacheStatusControlsClient propertyId={String(listing.id)} />
 
       {/* Cache Status Reference Table */}
       <section className="bg-white border-t border-gray-200 mt-8">

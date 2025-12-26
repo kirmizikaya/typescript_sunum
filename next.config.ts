@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         hostname: 'via.placeholder.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'imaj.emlakjet.com',
+        pathname: '/**',
+      },
     ],
   },
   
@@ -55,7 +60,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Link',
-            value: '</fonts/inter.woff2>; rel=preload; as=font; crossorigin, <https://images.unsplash.com>; rel=preconnect',
+            value: '<https://imaj.emlakjet.com>; rel=preconnect, <https://api.emlakjet.com>; rel=preconnect',
           },
           {
             key: 'X-Early-Hints',

@@ -2,18 +2,21 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { PropertyDetailSSR } from '../../components/PropertyDetailSSR';
 import { DemoControlsClient } from '../../components/DemoControlsClient';
-import { getProperty } from '../../lib/property-service';
+import { getListingDetail } from '../../lib/property-service';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
+// Default listing ID - gerçek Emlakjet ilanı
+const LISTING_ID = '18248872';
+
 // SEO Metadata
 export async function generateMetadata(): Promise<Metadata> {
-  const property = await getProperty('cf-demo-1', 1000); // 1000ms latency
+  const listing = await getListingDetail(LISTING_ID, 1000);
   
   return {
-    title: `${property.title} | Backend Yavaş Demo`,
-    description: `Demo: Yavaş backend (~1000ms). PageSpeed'de düşük skor.`,
+    title: `${listing.seo.title} | Backend Yavaş Demo`,
+    description: `Demo: Yavaş backend (~1000ms). ${listing.seo.description}`,
   };
 }
 
@@ -21,10 +24,11 @@ export async function generateMetadata(): Promise<Metadata> {
  * Demo 1a: No Cache - Backend Yavaş
  * 
  * Gerçek 1000ms latency - PageSpeed'de fark göreceksin
+ * Emlakjet API'den gerçek veri çekiyor
  */
 export default async function NoCacheSlowPage() {
-  // GERÇEK 1000ms bekleme
-  const property = await getProperty('cf-demo-1', 1000);
+  // GERÇEK 1000ms bekleme + API call
+  const listing = await getListingDetail(LISTING_ID, 1000);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -52,17 +56,18 @@ export default async function NoCacheSlowPage() {
         <div className="max-w-7xl mx-auto">
           <p className="text-red-700">
             🐌 Bu sayfa <strong>~1000ms</strong> backend latency ile render edildi. PageSpeed skorun düşük olacak!
+            <span className="ml-2 text-sm">İlan: #{listing.id}</span>
           </p>
         </div>
       </div>
 
       <main className="max-w-7xl mx-auto">
-        <PropertyDetailSSR property={property} />
+        <PropertyDetailSSR listing={listing} />
       </main>
 
       <DemoControlsClient 
         strategy="none"
-        propertyId="cf-demo-1"
+        propertyId={String(listing.id)}
         infoBanner={{
           title: 'Yavaş Backend - Her istek ~1000ms',
           description: 'PageSpeed testinde bu sayfayı test et, sonra <a href="/CF/demos/no-cache-fast" class="underline">hızlı versiyonu</a> test et ve skorları karşılaştır!',
@@ -74,4 +79,3 @@ export default async function NoCacheSlowPage() {
     </div>
   );
 }
-

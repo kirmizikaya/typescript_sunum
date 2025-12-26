@@ -2,17 +2,20 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { PropertyDetailSSR } from '../../components/PropertyDetailSSR';
 import { DemoControlsClient } from '../../components/DemoControlsClient';
-import { getProperty } from '../../lib/property-service';
+import { getListingDetail } from '../../lib/property-service';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-// SEO Metadata - basit tutuyoruz
+// Default listing ID - gerçek Emlakjet ilanı
+const LISTING_ID = '18248872';
+
+// SEO Metadata
 export async function generateMetadata(): Promise<Metadata> {
-  const property = await getProperty('cf-demo-1', 50);
+  const listing = await getListingDetail(LISTING_ID, 50);
   
   return {
-    title: `${property.title} | SWR Demo`,
+    title: `${listing.seo.title} | SWR Demo`,
     description: `Demo: Stale-While-Revalidate. Eski veri hemen sunulur, arka planda güncellenir.`,
   };
 }
@@ -23,9 +26,10 @@ export async function generateMetadata(): Promise<Metadata> {
  * 0-10sn: HIT (fresh)
  * 10-25sn: STALE (eski veri sunulur)
  * 25sn+: EXPIRED
+ * Emlakjet API'den gerçek veri çekiyor
  */
 export default async function SWRDemoPage() {
-  const property = await getProperty('cf-demo-1', 50);
+  const listing = await getListingDetail(LISTING_ID, 50);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -48,17 +52,18 @@ export default async function SWRDemoPage() {
           <p className="text-blue-700">
             🔄 <strong>SWR</strong>: Cache süresi dolsa bile eski veri hemen sunulur. 
             Arka planda güncelleme yapılır. Kullanıcı beklemez!
+            <span className="ml-2 text-sm">İlan: #{listing.id}</span>
           </p>
         </div>
       </div>
 
       <main className="max-w-7xl mx-auto">
-        <PropertyDetailSSR property={property} />
+        <PropertyDetailSSR listing={listing} />
       </main>
 
       <DemoControlsClient 
         strategy="swr"
-        propertyId="cf-demo-1"
+        propertyId={String(listing.id)}
         infoBanner={{
           title: 'SWR - Eski veriyi hemen sun, arka planda güncelle',
           description: '<strong>0-10sn:</strong> HIT | <strong>10-25sn:</strong> STALE | <strong>25sn+:</strong> EXPIRED',
