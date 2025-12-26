@@ -1,7 +1,3 @@
-'use client';
-
-import Link from 'next/link';
-
 const DEMOS = [
   {
     id: '1a',
@@ -142,7 +138,7 @@ export default function CFDashboard() {
           {DEMOS.map((demo) => {
             const colors = colorClasses[demo.color];
             return (
-              <Link
+              <a
                 key={demo.id}
                 href={demo.path}
                 className={`block bg-white rounded-xl border-2 ${colors.border} hover:shadow-lg transition-all group overflow-hidden`}
@@ -176,7 +172,7 @@ export default function CFDashboard() {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </a>
             );
           })}
         </div>
