@@ -12,7 +12,7 @@ const LISTING_ID = '18248872';
 
 // SEO Metadata
 export async function generateMetadata(): Promise<Metadata> {
-  const listing = await getListingDetail(LISTING_ID, 50);
+  const listing = await getListingDetail(LISTING_ID, 0);
   
   return {
     title: `${listing.seo.title} | Early Hints Demo`,
