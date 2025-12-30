@@ -112,21 +112,7 @@ export default function CFDashboard() {
             </div>
           </div>
           
-          {/* PageSpeed Test Info */}
-          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mt-6">
-            <div className="flex items-start gap-3">
-              <svg className="w-5 h-5 text-orange-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <div>
-                <h3 className="font-medium text-orange-900">PageSpeed ile Test Et!</h3>
-                <p className="text-sm text-orange-700 mt-1">
-                  Her demo sayfası <strong>gerçek latency simülasyonu</strong> yapar. 
-                  PageSpeed Insights ile test edip TTFB farklarını gör!
-                </p>
-              </div>
-            </div>
-          </div>
+
         </div>
       </header>
 

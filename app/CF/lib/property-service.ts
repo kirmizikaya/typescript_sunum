@@ -45,6 +45,7 @@ export async function getListingDetail(id: string = DEFAULT_LISTING_ID, latency:
   // API latency simülasyonu
   await simulateLatency(latency);
   
+
   const response = await fetch(`${EMLAKJET_API_BASE}/listing/detail/${id}`, {
     next: { revalidate: 0 }, // Her zaman fresh data
     headers: {
@@ -90,10 +91,10 @@ export async function getSimilarListings(id: string = DEFAULT_LISTING_ID, limit:
  * @param latency - Simüle edilecek latency (ms), default 50ms
  */
 export async function getPropertyData(id: string = DEFAULT_LISTING_ID, latency: number = 50): Promise<PropertyResponse> {
-  // Paralel fetch
+  // Paralel fetch - similarListings için limit 20 (sabit)
   const [listing, similarListings] = await Promise.all([
     getListingDetail(id, latency),
-    getSimilarListings(id, latency),
+    getSimilarListings(id, 20), // limit = 20, latency değil!
   ]);
   
   return {
