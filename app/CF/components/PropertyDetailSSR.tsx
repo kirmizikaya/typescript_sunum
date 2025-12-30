@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { 
   EmlakjetListingDetail, 
+  EmlakjetSimilarListing,
   getPropertyValue,
   flattenAttributes,
   stripHtml,
@@ -8,9 +9,13 @@ import {
 } from '../types/emlakjet-api';
 import { getListingImages, formatListingPrice } from '../lib/property-service';
 import { ImageGalleryClient } from './ImageGalleryClient';
+import { SimilarListingsSlider } from './SimilarListingsSlider';
+import { CompanyCard } from './CompanyCard';
+import { PriceHistorySection } from './PriceHistorySection';
 
 interface PropertyDetailSSRProps {
   listing: EmlakjetListingDetail;
+  similarListings?: EmlakjetSimilarListing[];
 }
 
 /**
@@ -18,7 +23,7 @@ interface PropertyDetailSSRProps {
  * SEO-friendly - tüm içerik HTML'de render edilir
  * Emlakjet API response formatına uygun
  */
-export function PropertyDetailSSR({ listing }: PropertyDetailSSRProps) {
+export function PropertyDetailSSR({ listing, similarListings = [] }: PropertyDetailSSRProps) {
   const images = getListingImages(listing);
   const features = flattenAttributes(listing.attributes);
   const cleanDescription = stripHtml(listing.description);
@@ -333,25 +338,25 @@ export function PropertyDetailSSR({ listing }: PropertyDetailSSRProps) {
           </div>
         )}
 
-        {/* Fiyat Geçmişi */}
-        {listing.priceHistories && listing.priceHistories.length > 1 && (
-          <div className="p-4 border-t border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Fiyat Geçmişi</h2>
-            <div className="flex flex-wrap gap-4">
-              {listing.priceHistories.map((history, i) => (
-                <div key={i} className="flex items-center gap-2 text-sm">
-                  {history.trend === 'DOWN' && <span className="text-green-500">↓</span>}
-                  {history.trend === 'UP' && <span className="text-red-500">↑</span>}
-                  <span className="font-medium">{formatListingPrice(history.price, history.currency)}</span>
-                  <span className="text-gray-400">
-                    {new Date(history.changedAt).toLocaleDateString('tr-TR')}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* Fiyat Bilgisi Section - Yeni Tablo Formatı */}
+      <PriceHistorySection 
+        priceHistories={listing.priceHistories} 
+        currentPrice={listing.priceDetail} 
+      />
+
+      {/* Firma Künyesi */}
+      <CompanyCard 
+        owner={listing.owner} 
+        companyListings={similarListings} 
+      />
+
+      {/* Benzer İlanlar Slider */}
+      <SimilarListingsSlider 
+        listings={similarListings} 
+        title="Benzer İlanlar"
+      />
 
       {/* JSON-LD Structured Data for SEO */}
       <script

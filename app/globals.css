@@ -149,6 +149,11 @@ body {
     z-index: 2;
   }
 
-
-
-
+  /* Scrollbar hide for sliders */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }

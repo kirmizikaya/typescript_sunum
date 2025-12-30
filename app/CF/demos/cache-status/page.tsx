@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { PropertyDetailSSR } from '../../components/PropertyDetailSSR';
 import { CacheStatusControlsClient } from './CacheStatusControlsClient';
-import { getListingDetail } from '../../lib/property-service';
+import { getPropertyData } from '../../lib/property-service';
 import { DataLayerScript } from '../../components/Scripts';
 import { createDataLayerData } from '../../lib/dataLayerUtils';
 import { EmlakjetHeader } from '../../components/EmlakjetHeader';
@@ -14,7 +14,7 @@ const LISTING_ID = '18248872';
 
 // SEO Metadata
 export async function generateMetadata(): Promise<Metadata> {
-  const listing = await getListingDetail(LISTING_ID, 50);
+  const { listing } = await getPropertyData(LISTING_ID, 50);
   
   return {
     title: `${listing.seo.title} | CF-Cache-Status Referans`,
@@ -24,10 +24,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 /**
  * Demo 5: Tüm CF-Cache-Status Değerleri
- * Emlakjet API'den gerçek veri çekiyor
+ * Emlakjet API'den gerçek veri çekiyor + Benzer İlanlar
  */
 export default async function CacheStatusDemoPage() {
-  const listing = await getListingDetail(LISTING_ID, 50);
+  const { listing, similarListings } = await getPropertyData(LISTING_ID, 50);
   const dataLayerData = createDataLayerData(listing);
 
   return (
@@ -53,7 +53,7 @@ export default async function CacheStatusDemoPage() {
       <EmlakjetHeader />
 
       <main className="max-w-7xl mx-auto">
-        <PropertyDetailSSR listing={listing} />
+        <PropertyDetailSSR listing={listing} similarListings={similarListings} />
       </main>
 
       <CacheStatusControlsClient propertyId={String(listing.id)} />

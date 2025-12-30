@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { PropertyDetailSSR } from '../../components/PropertyDetailSSR';
 import { DemoControlsClient } from '../../components/DemoControlsClient';
-import { getListingDetail } from '../../lib/property-service';
+import { getPropertyData } from '../../lib/property-service';
 import { DataLayerScript } from '../../components/Scripts';
 import { createDataLayerData } from '../../lib/dataLayerUtils';
 import { EmlakjetHeader } from '../../components/EmlakjetHeader';
@@ -14,7 +14,7 @@ const LISTING_ID = '18248872';
 
 // SEO Metadata
 export async function generateMetadata(): Promise<Metadata> {
-  const listing = await getListingDetail(LISTING_ID, 50);
+  const { listing } = await getPropertyData(LISTING_ID, 50);
   
   return {
     title: `${listing.seo.title} | Backend Hızlı Demo`,
@@ -26,11 +26,11 @@ export async function generateMetadata(): Promise<Metadata> {
  * Demo 1b: No Cache - Backend Hızlı
  * 
  * Gerçek 50ms latency - PageSpeed'de fark göreceksin
- * Emlakjet API'den gerçek veri çekiyor
+ * Emlakjet API'den gerçek veri çekiyor + Benzer İlanlar
  */
 export default async function NoCacheFastPage() {
-  // GERÇEK 50ms bekleme + API call
-  const listing = await getListingDetail(LISTING_ID, 50);
+  // GERÇEK 50ms bekleme + API call (listing + similar listings paralel)
+  const { listing, similarListings } = await getPropertyData(LISTING_ID, 50);
 
   // DataLayer için listing verilerini hazırla
   const dataLayerData = createDataLayerData(listing);
@@ -73,7 +73,7 @@ export default async function NoCacheFastPage() {
       <EmlakjetHeader />
 
       <main className="max-w-7xl mx-auto">
-        <PropertyDetailSSR listing={listing} />
+        <PropertyDetailSSR listing={listing} similarListings={similarListings} />
       </main>
 
       <DemoControlsClient 
