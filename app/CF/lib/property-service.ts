@@ -93,7 +93,7 @@ export async function getPropertyData(id: string = DEFAULT_LISTING_ID, latency: 
   // Paralel fetch
   const [listing, similarListings] = await Promise.all([
     getListingDetail(id, latency),
-    getSimilarListings(id, 20),
+    getSimilarListings(id, latency),
   ]);
   
   return {
