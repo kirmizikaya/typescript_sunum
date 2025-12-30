@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { PropertyDetailSSR } from '../../components/PropertyDetailSSR';
 import { DemoControlsClient } from '../../components/DemoControlsClient';
 import { getPropertyData } from '../../lib/property-service';
-import { DataLayerScript } from '../../components/Scripts';
+import { DataLayerScript, PreconnectLinks } from '../../components/Scripts';
 import { createDataLayerData } from '../../lib/dataLayerUtils';
 import { EmlakjetHeader } from '../../components/EmlakjetHeader';
 
@@ -35,6 +35,9 @@ export default async function EarlyHintsDemoPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Early Hints - Preconnect Links (SADECE bu sayfada) */}
+      <PreconnectLinks />
+      
       {/* SSR DataLayer */}
       <DataLayerScript listingData={dataLayerData} />
       

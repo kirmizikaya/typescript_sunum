@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Scripts, PreconnectLinks } from './components/Scripts';
+import { Scripts } from './components/Scripts';
 
 export const metadata: Metadata = {
   title: 'Cloudflare Edge Cache Demo | Frontend Sunum',
@@ -13,9 +13,6 @@ export default function CFLayout({
 }) {
   return (
     <>
-      {/* Preconnect to third-party domains for faster loading */}
-      <PreconnectLinks />
-      
       <div 
         className="min-h-screen bg-gray-50"
         style={{

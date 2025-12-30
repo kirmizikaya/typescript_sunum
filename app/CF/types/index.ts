@@ -169,8 +169,8 @@ export interface CacheStatusConfig {
 // Early Hints header
 export interface EarlyHint {
   resource: string;
-  rel: 'preload' | 'preconnect' | 'prefetch';
-  as?: 'style' | 'script' | 'font' | 'image';
+  rel: 'preload' | 'preconnect' | 'prefetch' | 'dns-prefetch';
+  as?: 'style' | 'script' | 'font' | 'image' | 'fetch';
   crossorigin?: boolean;
 }
 

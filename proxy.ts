@@ -162,12 +162,13 @@ export function proxy(request: NextRequest) {
     const cacheTimestamp = request.cookies.get('cf-hints-cache-ts')?.value;
     const maxAge = 3600;
     
-    // Early Hints headers - kritik kaynakları preload et
+    // Early Hints headers - gerçek kritik kaynakları preconnect/dns-prefetch et
+    // Not: preload yerine preconnect kullanıyoruz çünkü font/css dosyaları local değil
     response.headers.set('Link', [
-      '</fonts/inter.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin',
-      '</styles/critical.css>; rel=preload; as=style',
-      '</CF/api/property/cf-demo-1>; rel=preload; as=fetch; crossorigin',
-      '<https://images.unsplash.com>; rel=preconnect'
+      '<https://imaj.emlakjet.com>; rel=preconnect',
+      '<https://api.emlakjet.com>; rel=preconnect',
+      '<https://www.googletagmanager.com>; rel=preconnect',
+      '<https://connect.facebook.net>; rel=dns-prefetch'
     ].join(', '));
     response.headers.set('X-Early-Hints', 'sent');
     response.headers.set('X-Cache-Strategy', 'early-hints');

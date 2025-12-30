@@ -97,12 +97,12 @@ export const CACHE_STATUS_CONFIG: Record<CFCacheStatus, {
   }
 };
 
-// Early Hints varsayılan kaynaklar
+// Early Hints varsayılan kaynaklar - gerçek harici domainler
 export const DEFAULT_EARLY_HINTS: EarlyHint[] = [
-  { resource: '/styles/main.css', rel: 'preload', as: 'style' },
-  { resource: '/scripts/app.js', rel: 'preload', as: 'script' },
-  { resource: '/fonts/inter.woff2', rel: 'preload', as: 'font', crossorigin: true },
-  { resource: '/images/hero.webp', rel: 'preload', as: 'image' }
+  { resource: 'https://imaj.emlakjet.com', rel: 'preconnect' },
+  { resource: 'https://api.emlakjet.com', rel: 'preconnect' },
+  { resource: 'https://www.googletagmanager.com', rel: 'preconnect' },
+  { resource: 'https://connect.facebook.net', rel: 'dns-prefetch' }
 ];
 
 // CF-Ray ID üreteci
