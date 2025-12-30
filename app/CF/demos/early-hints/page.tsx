@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
  * Emlakjet API'den gerçek veri çekiyor + Benzer İlanlar
  */
 export default async function EarlyHintsDemoPage() {
-  const { listing, similarListings } = await getPropertyData(LISTING_ID, 50);
+  const { listing, similarListings } = await getPropertyData(LISTING_ID, 0);
   const dataLayerData = createDataLayerData(listing);
 
   return (

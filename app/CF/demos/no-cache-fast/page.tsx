@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
  */
 export default async function NoCacheFastPage() {
   // GERÇEK 50ms bekleme + API call (listing + similar listings paralel)
-  const { listing, similarListings } = await getPropertyData(LISTING_ID, 50);
+  const { listing, similarListings } = await getPropertyData(LISTING_ID, 0);
 
   // DataLayer için listing verilerini hazırla
   const dataLayerData = createDataLayerData(listing);
