@@ -7,13 +7,14 @@ interface ImageGalleryClientProps {
   images: string[]; // Full URL'ler
   title: string;
   listingId: string;
+  priorityImage?: boolean; // LCP için priority fetch - sadece early-hints'te true
 }
 
 /**
  * Client component for interactive image gallery
  * Bu component SSR sayfası içinde hydrate olur
  */
-export function ImageGalleryClient({ images, title, listingId }: ImageGalleryClientProps) {
+export function ImageGalleryClient({ images, title, listingId, priorityImage = false }: ImageGalleryClientProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
@@ -32,7 +33,7 @@ export function ImageGalleryClient({ images, title, listingId }: ImageGalleryCli
             alt={`${title} - Fotoğraf ${currentImageIndex + 1}`}
             fill
             className="object-cover"
-            priority
+            priority={priorityImage}
             sizes="(max-width: 768px) 100vw, 45vw"
           />
         )}

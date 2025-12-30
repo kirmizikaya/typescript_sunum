@@ -69,7 +69,7 @@ export default async function EarlyHintsDemoPage() {
       <EmlakjetHeader />
 
       <main className="max-w-7xl mx-auto">
-        <PropertyDetailSSR listing={listing} similarListings={similarListings} />
+        <PropertyDetailSSR listing={listing} similarListings={similarListings} priorityImage={true} />
       </main>
 
       <DemoControlsClient 

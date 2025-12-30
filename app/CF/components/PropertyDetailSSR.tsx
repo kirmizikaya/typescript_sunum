@@ -16,6 +16,7 @@ import { PriceHistorySection } from './PriceHistorySection';
 interface PropertyDetailSSRProps {
   listing: EmlakjetListingDetail;
   similarListings?: EmlakjetSimilarListing[];
+  priorityImage?: boolean; // LCP için priority fetch - sadece early-hints'te true
 }
 
 /**
@@ -23,7 +24,7 @@ interface PropertyDetailSSRProps {
  * SEO-friendly - tüm içerik HTML'de render edilir
  * Emlakjet API response formatına uygun
  */
-export function PropertyDetailSSR({ listing, similarListings = [] }: PropertyDetailSSRProps) {
+export function PropertyDetailSSR({ listing, similarListings = [], priorityImage = false }: PropertyDetailSSRProps) {
   const images = getListingImages(listing);
   const features = flattenAttributes(listing.attributes);
   const cleanDescription = stripHtml(listing.description);
@@ -87,6 +88,7 @@ export function PropertyDetailSSR({ listing, similarListings = [] }: PropertyDet
             images={images} 
             title={listing.title}
             listingId={String(listing.id)}
+            priorityImage={priorityImage}
           />
 
           {/* Quick Links */}

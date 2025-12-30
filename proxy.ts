@@ -167,8 +167,6 @@ export function proxy(request: NextRequest) {
     response.headers.set('Link', [
       '<https://imaj.emlakjet.com>; rel=preconnect',
       '<https://api.emlakjet.com>; rel=preconnect',
-      '<https://www.googletagmanager.com>; rel=preconnect',
-      '<https://connect.facebook.net>; rel=dns-prefetch'
     ].join(', '));
     response.headers.set('X-Early-Hints', 'sent');
     response.headers.set('X-Cache-Strategy', 'early-hints');
